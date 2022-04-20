@@ -23,6 +23,7 @@ const LoginComponent = (props) => {
             .post(`${process.env.REACT_APP_API}/login`, { username, password})
             .then(response => {
                 Swal.fire("ยินดีต้อนรับ", "เข้าสู่ระบบสำเร็จ", "success");
+                console.log(response.data)
                 authenticate(response, navigate("/"))
             })
             .catch((err) => {

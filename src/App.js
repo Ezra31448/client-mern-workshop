@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
-//////////////////////////////////////////
-//import DOMPurify from "dompurify";
 
 
 function App() {
@@ -56,10 +54,6 @@ function App() {
       });
   };
 
-  // const editData = (slug) => {
-  //   axios.put(`${process.env.REACT_APP_API}/blog/${slug}`).then({}).catch({})
-  // };
-
   return (
     <div className="container p-5">
       <NavbarComponent />
@@ -71,7 +65,7 @@ function App() {
           style={{ borderBottom: "1px solid silver" }}
         >
           <div className="col pt-3 pb-2">
-            <p>{`/blog/${blog.slug}`}</p>
+            {/* <p>{`/blog/${blog.slug}`}</p> */}
 
             <Link to={`/blog/${blog.slug}`}>
               <h2>{blog.title}</h2>
