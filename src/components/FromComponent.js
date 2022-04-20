@@ -16,8 +16,9 @@ const FromComponent = () => {
   });
 
   const [content, setContent] = useState('');
+  // const [date, setDate] = useState(new Date());
 
-  const { title, author, type, duration, date } = state;
+  const { title, author, type, duration} = state;
   //กำหนดค่าให้ State
   const inputValue = (name) => (event) => {
     console.log(name, "=", event.target.value);
@@ -28,15 +29,19 @@ const FromComponent = () => {
     setContent(e);
   }
 
+  // const submitDate = (e) => {
+  //   setDate(e);
+  // }
+
   const submitForm = (e) => {
     e.preventDefault();
     //console.table({title, content, author});
     console.log(`API URL : ${process.env.REACT_APP_API}`);
     axios
-      .post(`${process.env.REACT_APP_API}/create`, { title, content, author, type, duration, date })
+      .post(`${process.env.REACT_APP_API}/create`, { title, content, author, type, duration})
       .then((response) => {
         Swal.fire("ยอดเยี่ยม!", "บันทึกข้อมูลสำเร็จ", "success");
-        setState({ ...state, title: "", content: "", author: "", type: "", duration: "", date: "" });
+        setState({ ...state, title: "", content: "", author: "", type: "", duration: ""});
         setContent("")
       })
       .catch((err) => {
@@ -101,16 +106,16 @@ const FromComponent = () => {
           />
         </div>
 
-        <div className="form-group">
+        {/* <div className="form-group">
           <label>Date :</label>
           <input
             className="form-group"
             name='date'
             type='date'
             value={date}
-            onChange={inputValue("date")}
+            onChange={submitDate}
           />
-        </div>
+        </div> */}
 
         <br></br>
         <input type="submit" value="บันทึก" className="btn btn-primary" />

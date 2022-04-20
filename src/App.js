@@ -77,7 +77,7 @@ function App() {
               }}
             ></div>
             <p className="text-muted">
-              Date : {new Date(blog.date).toLocaleString()}
+              Date : {new Date(blog.createdAt).toLocaleString()}
             </p>
 
             {getUser() && (

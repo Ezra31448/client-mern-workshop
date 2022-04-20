@@ -11,10 +11,13 @@ const EditComponent = () => {
   const [state, setState] = useState({
     title: "",
     author: "",
-    slug: "" 
+    slug: "", 
+    type: "",
+    duration: "",
   });
   const [ content, setContent ] = useState(''); 
-  const { title, slug } = state;
+  const { title, slug, type, duration,} = state;
+  // const [date, setDate] = useState(new Date());
   
   const params = useParams();
   //กำหนดค่าให้ State
@@ -30,8 +33,8 @@ const EditComponent = () => {
       await axios
         .get(`${process.env.REACT_APP_API}/blog/${params.slug}`)
         .then((response) => {
-          const { title, content, slug} = response.data;
-          setState({...setState, title, slug});
+          const { title, content, slug, type, duration, date} = response.data;
+          setState({...setState, title, slug, type, duration, date});
           setContent(content);
         })
         .catch((err) => alert(err));
@@ -59,13 +62,43 @@ const EditComponent = () => {
             className=""
           />
         </div>
-        {/* <div className="form-group">
-          <label>ผู้แต่ง</label>
-          <input
-            type="text"
+        <div className="form-control">
+          <lable>ประเภทกิจกรรม</lable>
+          <select
             className="form-control"
-            value={author}
-            onChange={inputValue("author")}
+            name='type'
+            value={type}
+            onChange={inputValue("type")}
+          >
+            <option value=''>เลือกประเภทกิจกรรม</option>
+            <option value='วิ่ง'>วิ่ง</option>
+            <option value='ปั่นจักรยาน'>ปั่นจักรยาน</option>
+            <option value='ว่ายน้ำ'>ว่ายน้ำ</option>
+            <option value='เดิน'>เดิน</option>
+            <option value='เดินเขา'>เดินเขา</option>
+          </select>
+        </div>
+
+        <div className="from-group">
+          <label> ระยะเวลา :</label>
+          <input
+            className="form-control"
+            type='number'
+            placeholder='เวลาที่ใช้ (นาที)'
+            name='duration'
+            value={duration}
+            onChange={inputValue("duration")}
+          />
+        </div>
+
+        {/* <div className="form-group">
+          <label>Date :</label>
+          <input
+            className="form-group"
+            name='date'
+            type='date'
+            value={date}
+            onChange={inputValue("date")}
           />
         </div> */}
         <br></br>
