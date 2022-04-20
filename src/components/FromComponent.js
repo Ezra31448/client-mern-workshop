@@ -4,7 +4,9 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 import ReactQuill from "react-quill";
-import 'react-quill/dist/quill.snow.css';
+import "react-quill/dist/quill.snow.css";
+
+
 
 const FromComponent = () => {
   const [state, setState] = useState({
@@ -15,10 +17,10 @@ const FromComponent = () => {
     date: "",
   });
 
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   // const [date, setDate] = useState(new Date());
 
-  const { title, author, type, duration} = state;
+  const { title, author, type, duration } = state;
   //กำหนดค่าให้ State
   const inputValue = (name) => (event) => {
     console.log(name, "=", event.target.value);
@@ -27,7 +29,7 @@ const FromComponent = () => {
 
   const submitContent = (e) => {
     setContent(e);
-  }
+  };
 
   // const submitDate = (e) => {
   //   setDate(e);
@@ -38,11 +40,24 @@ const FromComponent = () => {
     //console.table({title, content, author});
     console.log(`API URL : ${process.env.REACT_APP_API}`);
     axios
-      .post(`${process.env.REACT_APP_API}/create`, { title, content, author, type, duration})
+      .post(`${process.env.REACT_APP_API}/create`, {
+        title,
+        content,
+        author,
+        type,
+        duration,
+      })
       .then((response) => {
         Swal.fire("ยอดเยี่ยม!", "บันทึกข้อมูลสำเร็จ", "success");
-        setState({ ...state, title: "", content: "", author: "", type: "", duration: ""});
-        setContent("")
+        setState({
+          ...state,
+          title: "",
+          content: "",
+          author: "",
+          type: "",
+          duration: "",
+        });
+        setContent("");
       })
       .catch((err) => {
         Swal.fire("ผิดพลาด!", err.response.data.error, "error");
@@ -50,15 +65,16 @@ const FromComponent = () => {
       });
   };
   return (
-    <div className="container p-5">
+    <div className="container p-5 bg-light">
       <NavbarComponent />
-      <h1>เขียนบทความ</h1>
+      
+      <br />
+      <h1>เพิ่มกิจกรรม</h1>
 
-      {/* {JSON.stringify(state)} */}
 
-      <form onSubmit={submitForm}>
+      <form onSubmit={submitForm} >
         <div className="form-group">
-          <label>ชื่อบทความ</label>
+          <label>ชื่อกิจกรรม</label>
           <input
             type="text"
             className="form-control"
@@ -81,16 +97,16 @@ const FromComponent = () => {
           <lable>ประเภทกิจกรรม</lable>
           <select
             className="form-control"
-            name='type'
+            name="type"
             value={type}
             onChange={inputValue("type")}
           >
-            <option value=''>เลือกประเภทกิจกรรม</option>
-            <option value='วิ่ง'>วิ่ง</option>
-            <option value='ปั่นจักรยาน'>ปั่นจักรยาน</option>
-            <option value='ว่ายน้ำ'>ว่ายน้ำ</option>
-            <option value='เดิน'>เดิน</option>
-            <option value='เดินเขา'>เดินเขา</option>
+            <option value="">เลือกประเภทกิจกรรม</option>
+            <option value="วิ่ง">วิ่ง</option>
+            <option value="ปั่นจักรยาน">ปั่นจักรยาน</option>
+            <option value="ว่ายน้ำ">ว่ายน้ำ</option>
+            <option value="เดิน">เดิน</option>
+            <option value="เดินเขา">เดินเขา</option>
           </select>
         </div>
 
@@ -98,9 +114,9 @@ const FromComponent = () => {
           <label> ระยะเวลา :</label>
           <input
             className="form-control"
-            type='number'
-            placeholder='เวลาที่ใช้ (นาที)'
-            name='duration'
+            type="number"
+            placeholder="เวลาที่ใช้ (นาที)"
+            name="duration"
             value={duration}
             onChange={inputValue("duration")}
           />
@@ -118,7 +134,10 @@ const FromComponent = () => {
         </div> */}
 
         <br></br>
-        <input type="submit" value="บันทึก" className="btn btn-primary" />
+        <div className=" d-flex justify-content-end">
+          <input type="submit" value="บันทึก" className="btn btn-primary" />
+        </div>
+        
       </form>
     </div>
   );

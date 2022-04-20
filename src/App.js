@@ -3,6 +3,7 @@ import NavbarComponent from "./components/NavbarComponent";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { Card } from "react-bootstrap";
 
 import { getUser } from "./service/authorize";
 
@@ -55,50 +56,58 @@ function App() {
   };
 
   return (
-    <div className="container p-5">
-      <NavbarComponent />
-      {blogs.map((blog, index) => (
-        <div
-          className="row"
-          key={index}
-          style={{ borderBottom: "1px solid silver" }}
-        >
-          <div className="col pt-3 pb-2">
-            {/* <p>{`/blog/${blog.slug}`}</p> */}
-
-            <Link to={`/blog/${blog.slug}`}>
-              <h2>{blog.title}</h2>
-            </Link>
-            <div>ประเภทกิจกรรม : {blog.type}</div>
-            <div>ระยะเวลา : {blog.duration} นาที</div>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: blog.content.substring(0, 180),
-              }}
-            ></div>
-            <p className="text-muted">
-              Date : {new Date(blog.createdAt).toLocaleString()}
-            </p>
-
-            {getUser() && (
-              <div>
-                <Link
-                  to={`/blog/edit/${blog.slug}`}
-                  className="btn btn-outline-secondary"
-                >
-                  แก้ไข
-                </Link>
-                <button
-                  className="btn btn-outline-danger"
-                  onClick={() => confirmDelete(blog.slug)}
-                >
-                  ลบ
-                </button>
-              </div>
-            )}
+    <div className="container p-5 bg-light">
+      <NavbarComponent className="justify-content-center" />
+      <div className="d-grid justify-content-center">
+        {blogs.map((blog, index) => (
+          <div
+            className="row "
+            key={index}
+            style={{ borderBottom: "1px solid silver" }}
+          >
+            <div className="col pt-3 pb-2 ">
+              <Card border="primary" style={{ width: "18rem" }}>
+                <Card.Header>{blog.title}</Card.Header>
+                <Card.Body>
+                  <Card.Title>
+                    <Link to={`/blog/${blog.slug}`}>
+                      <h2>{blog.title}</h2>
+                    </Link>
+                  </Card.Title>
+                  <Card.Text>
+                    ประเภทกิจกรรม : {blog.type} <br />
+                    ระยะเวลา : {blog.duration} นาที
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: blog.content.substring(0, 180),
+                      }}
+                    ></div>
+                    <p className="text-muted">
+                      Date : {new Date(blog.createdAt).toLocaleString()}
+                    </p>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+              {getUser() && (
+                <div className="d-flex flex-row-reverse">
+                  <Link
+                    to={`/blog/edit/${blog.slug}`}
+                    className="btn btn-outline-secondary"
+                  >
+                    แก้ไข
+                  </Link>
+                  <button
+                    className="btn btn-outline-danger"
+                    onClick={() => confirmDelete(blog.slug)}
+                  >
+                    ลบ
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

@@ -90,19 +90,11 @@ const EditComponent = () => {
             onChange={inputValue("duration")}
           />
         </div>
-
-        {/* <div className="form-group">
-          <label>Date :</label>
-          <input
-            className="form-group"
-            name='date'
-            type='date'
-            value={date}
-            onChange={inputValue("date")}
-          />
-        </div> */}
         <br></br>
-        <input type="submit" value="อัพเดต" className="btn btn-primary" />
+        <div className="d-flex justify-content-end">
+        <input type="submit" value="อัพเดต" className="btn btn-primary " />
+        </div>
+        
       </form>
 )
     const submitForm = (e) => {
@@ -123,7 +115,7 @@ const EditComponent = () => {
         });
     };
   return (
-    <div className="container p-5">
+    <div className="container p-5 bg-light">
       <NavbarComponent />
       <h1>แก้ไขบทความ</h1>
       {showUpdateForm()}

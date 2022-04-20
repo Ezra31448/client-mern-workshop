@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { getUser, logout } from "../service/authorize";
 import { useState, useEffect } from "react";
+import { Nav } from "react-bootstrap";
 
 
 const NavbarComponent = () => {
@@ -12,10 +13,9 @@ const NavbarComponent = () => {
     }, []);
 
     let navigate = useNavigate();
-    
     return (
-        <nav>
-            <ul className="nav nav-tabs">
+        <Nav className="justify-content-center">
+            <ul className="nav nav-tabs ">
                 <li className="nav-item pr-3 pt-3 pb-3">
                     <Link to={`/`} className="nav-link">หน้าแรก</Link>
                 </li>
@@ -45,7 +45,7 @@ const NavbarComponent = () => {
                 
 
             </ul>
-        </nav>
+        </Nav>
     )
 }
 

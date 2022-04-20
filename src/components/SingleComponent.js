@@ -2,6 +2,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import NavbarComponent from "./NavbarComponent";
 import { useParams } from "react-router-dom";
+import React from "react";
+
+
 
 const SingleComponent = () => {
   const [blog, setBlog] = useState("");
@@ -17,8 +20,9 @@ const SingleComponent = () => {
     })();
   });
   return (
-    <div className="container p-5">
+    <div className="container p-5 bg-light">
       <NavbarComponent />
+      
       <h1>{blog.title}</h1>
       <div dangerouslySetInnerHTML={{ __html: blog.content}}></div>
       <p className="text-muted">
@@ -26,6 +30,7 @@ const SingleComponent = () => {
       </p>
     </div>
   );
+  
 };
 
 export default SingleComponent;
