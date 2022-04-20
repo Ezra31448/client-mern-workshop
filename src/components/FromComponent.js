@@ -10,11 +10,14 @@ const FromComponent = () => {
   const [state, setState] = useState({
     title: "",
     author: "",
+    type: "",
+    duration: "",
+    date: "",
   });
 
-  const [content, setContent] = useState(''); 
+  const [content, setContent] = useState('');
 
-  const { title, author } = state;
+  const { title, author, type, duration, date } = state;
   //กำหนดค่าให้ State
   const inputValue = (name) => (event) => {
     console.log(name, "=", event.target.value);
@@ -30,10 +33,10 @@ const FromComponent = () => {
     //console.table({title, content, author});
     console.log(`API URL : ${process.env.REACT_APP_API}`);
     axios
-      .post(`${process.env.REACT_APP_API}/create`, { title, content, author })
+      .post(`${process.env.REACT_APP_API}/create`, { title, content, author, type, duration, date })
       .then((response) => {
         Swal.fire("ยอดเยี่ยม!", "บันทึกข้อมูลสำเร็จ", "success");
-        setState({ ...state, title: "", content: "", author: "" });
+        setState({ ...state, title: "", content: "", author: "", type: "", duration: "", date: "" });
         setContent("")
       })
       .catch((err) => {
@@ -61,7 +64,7 @@ const FromComponent = () => {
         </div>
         <div className="form-group">
           <label>รายละเอียดกิจกรรม</label>
-          <ReactQuill 
+          <ReactQuill
             value={content}
             onChange={submitContent}
             theme="snow"
@@ -69,15 +72,46 @@ const FromComponent = () => {
             placeholder="เขียนรายละเอียดการออกกำลังกาย"
           />
         </div>
-        {/* <div className="form-group">
-          <label>ผู้แต่ง</label>
-          <input
-            type="text"
+        <div className="form-control">
+          <lable>ประเภทกิจกรรม</lable>
+          <select
             className="form-control"
-            value={author}
-            onChange={inputValue("author")}
+            name='type'
+            value={type}
+            onChange={inputValue("type")}
+          >
+            <option value=''>เลือกประเภทกิจกรรม</option>
+            <option value='วิ่ง'>วิ่ง</option>
+            <option value='ปั่นจักรยาน'>ปั่นจักรยาน</option>
+            <option value='ว่ายน้ำ'>ว่ายน้ำ</option>
+            <option value='เดิน'>เดิน</option>
+            <option value='เดินเขา'>เดินเขา</option>
+          </select>
+        </div>
+
+        <div className="from-group">
+          <label> ระยะเวลา :</label>
+          <input
+            className="form-control"
+            type='number'
+            placeholder='เวลาที่ใช้ (นาที)'
+            name='duration'
+            value={duration}
+            onChange={inputValue("duration")}
           />
-        </div> */}
+        </div>
+
+        <div className="form-group">
+          <label>Date :</label>
+          <input
+            className="form-group"
+            name='date'
+            type='date'
+            value={date}
+            onChange={inputValue("date")}
+          />
+        </div>
+
         <br></br>
         <input type="submit" value="บันทึก" className="btn btn-primary" />
       </form>

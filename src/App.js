@@ -69,14 +69,15 @@ function App() {
             <Link to={`/blog/${blog.slug}`}>
               <h2>{blog.title}</h2>
             </Link>
-
+            <div>ประเภทกิจกรรม : {blog.type}</div>
+            <div>ระยะเวลา : {blog.duration} นาที</div>
             <div
               dangerouslySetInnerHTML={{
                 __html: blog.content.substring(0, 180),
               }}
             ></div>
             <p className="text-muted">
-              Date : {new Date(blog.updatedAt).toLocaleString()}
+              Date : {new Date(blog.date).toLocaleString()}
             </p>
 
             {getUser() && (
