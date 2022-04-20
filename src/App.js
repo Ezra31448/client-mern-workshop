@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
-
+import { getUser } from "./service/authorize";
 
 function App() {
   const [blogs, setBlogs] = useState([]);
@@ -57,7 +57,6 @@ function App() {
   return (
     <div className="container p-5">
       <NavbarComponent />
-
       {blogs.map((blog, index) => (
         <div
           className="row"
@@ -70,23 +69,32 @@ function App() {
             <Link to={`/blog/${blog.slug}`}>
               <h2>{blog.title}</h2>
             </Link>
-            
-            <div dangerouslySetInnerHTML={{ __html: blog.content.substring(0, 180) }}></div>
+
+            <div
+              dangerouslySetInnerHTML={{
+                __html: blog.content.substring(0, 180),
+              }}
+            ></div>
             <p className="text-muted">
               Date : {new Date(blog.updatedAt).toLocaleString()}
             </p>
-            <Link
-              to={`/blog/edit/${blog.slug}`}
-              className="btn btn-outline-secondary"
-            >
-              แก้ไข
-            </Link>
-            <button
-              className="btn btn-outline-danger"
-              onClick={() => confirmDelete(blog.slug)}
-            >
-              ลบ
-            </button>
+
+            {getUser() && (
+              <div>
+                <Link
+                  to={`/blog/edit/${blog.slug}`}
+                  className="btn btn-outline-secondary"
+                >
+                  แก้ไข
+                </Link>
+                <button
+                  className="btn btn-outline-danger"
+                  onClick={() => confirmDelete(blog.slug)}
+                >
+                  ลบ
+                </button>
+              </div>
+            )}
           </div>
         </div>
       ))}

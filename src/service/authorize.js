@@ -1,10 +1,10 @@
 //store token and username => session storage
-export const authenticate = (response, next) => {
+export const authenticate = (response) => {
     if(window!=="undefinded"){
         sessionStorage.setItem("token", JSON.stringify(response.data.token));
         sessionStorage.setItem("username", JSON.stringify(response.data.username));
     }
-    next()
+    //next()
 }
 //get token data
 export const getToken = () => {
@@ -21,10 +21,19 @@ export const getToken = () => {
 
 export const getUser = () => {
     if(window!== "undefined") {
-        if(sessionStorage.getItem("user")){
-            return JSON.parse(sessionStorage.getItem("user"));
+        if(sessionStorage.getItem("username")){
+            return JSON.parse(sessionStorage.getItem("username"));
         } else {
             return false;
         }
     }
+};
+
+export const logout = () => {
+    if(window!== "undefined") {
+            sessionStorage.removeItem("token")
+            sessionStorage.removeItem("username")
+    }
+    console.log("log out");
+    // callback();
 };

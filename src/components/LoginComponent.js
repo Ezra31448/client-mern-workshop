@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NavbarComponent from "./NavbarComponent";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { authenticate } from "../service/authorize";
 import { useNavigate } from "react-router-dom";
+import { getUser } from "../service/authorize";
 
 const LoginComponent = (props) => {
     const [state, setState] = useState({
@@ -30,6 +31,11 @@ const LoginComponent = (props) => {
                 Swal.fire("ผิดพลาด!", err.response.data.error, "error");
             });
     };
+
+    useEffect(()=> {
+        getUser() && ((navigate("/")));
+        // eslint-disable-next-line
+    }, []);
     return (
         <div className="container p-5">
             <NavbarComponent />
