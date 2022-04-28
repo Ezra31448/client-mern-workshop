@@ -16,8 +16,8 @@ const EditComponent = () => {
     duration: "",
   });
   const [ content, setContent ] = useState(''); 
-  const { title, slug, type, duration,} = state;
-  // const [date, setDate] = useState(new Date());
+  const { title, slug, type} = state;
+  const [duration, setDuration ] = useState('');
   
   const params = useParams();
   //กำหนดค่าให้ State
@@ -28,14 +28,18 @@ const EditComponent = () => {
   const submitContent = (e) => {
     setContent(e);
   }
+  const submitDuration = (e) => {
+    setDuration(e.target.value);
+  }
   useEffect(() => {  
     (async () => {
       await axios
         .get(`${process.env.REACT_APP_API}/blog/${params.slug}`)
         .then((response) => {
-          const { title, content, slug, type, duration, date} = response.data;
-          setState({...setState, title, slug, type, duration, date});
+          const { title, content, slug, type, duration} = response.data;
+          setState({...setState, title, slug, type});
           setContent(content);
+          setDuration(duration);
         })
         .catch((err) => alert(err));
     })();
@@ -87,7 +91,7 @@ const EditComponent = () => {
             placeholder='เวลาที่ใช้ (นาที)'
             name='duration'
             value={duration}
-            onChange={inputValue("duration")}
+            onChange={submitDuration}
           />
         </div>
         <br></br>
@@ -99,19 +103,19 @@ const EditComponent = () => {
 )
     const submitForm = (e) => {
       e.preventDefault();
-      //console.table({title, content, author});
+      console.table({title, content});
       console.log(`API URL : ${process.env.REACT_APP_API}`);
       axios
-        .put(`${process.env.REACT_APP_API}/blog/${slug}`, { title, content})
+        .put(`${process.env.REACT_APP_API}/blog/${slug}`, { title, content, type, duration})
         .then((response) => {
           const {title, content, slug} = response.data
           Swal.fire("อัพเดต!", "อัพเดตข้อมูลเรียบร้อย", "success");
-          setState({ ...state, title, slug});
+          setState({ ...state, title, slug, type, duration});
           setContent(content);
+          setDuration(duration);
         })
         .catch((err) => {
           Swal.fire("ผิดพลาด!", err.response.data.error, "error");
-          //setState({ ...state, title: "", content: "", author: "" });
         });
     };
   return (
