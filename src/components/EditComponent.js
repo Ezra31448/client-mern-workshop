@@ -17,7 +17,7 @@ const EditComponent = () => {
   });
   const [ content, setContent ] = useState(''); 
   const { title, slug, type} = state;
-  const [duration, setDuration ] = useState('');
+  const [ duration, setDuration ] = useState('');
   
   const params = useParams();
   //กำหนดค่าให้ State
