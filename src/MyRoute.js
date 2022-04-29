@@ -1,6 +1,6 @@
 import {Routes, Route} from 'react-router-dom'
 import App from "./App";
-import FromComponent from "./components/FromComponent"
+import FromComponent from "./components/FromComponent/FromComponent"
 import SingleComponent from './components/SingleComponent';
 import EditComponent from './components/EditComponent';
 import LoginComponent from './components/LoginComponent';

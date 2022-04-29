@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import NavbarComponent from "./NavbarComponent";
+import React, { useState, useEffect } from "react";
+import NavbarComponent from "../NavbarComponent";
+import "./FromComponent.css"
 import axios from "axios";
 import Swal from "sweetalert2";
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-
-
 
 const FromComponent = () => {
   const [state, setState] = useState({
@@ -19,6 +18,7 @@ const FromComponent = () => {
 
   const [content, setContent] = useState("");
   // const [date, setDate] = useState(new Date());
+  const [formErrors, setFormErrors] = useState({});
 
   const { title, author, type, duration } = state;
   //กำหนดค่าให้ State
@@ -27,8 +27,14 @@ const FromComponent = () => {
     setState({ ...state, [name]: event.target.value });
   };
 
+  useEffect(() => {
+    setFormErrors(validate(state));
+  }, [state]);
+
   const submitContent = (e) => {
+    console.log(e)
     setContent(e);
+    setFormErrors(e);
   };
 
   // const submitDate = (e) => {
@@ -37,7 +43,6 @@ const FromComponent = () => {
 
   const submitForm = (e) => {
     e.preventDefault();
-    //console.table({title, content, author});
     console.log(`API URL : ${process.env.REACT_APP_API}`);
     axios
       .post(`${process.env.REACT_APP_API}/create`, {
@@ -64,15 +69,47 @@ const FromComponent = () => {
         //setState({ ...state, title: "", content: "", author: "" });
       });
   };
+
+  const validate = (values) => {
+    const errors = {};
+    if (!values.title) {
+      errors.title = 'Activity name is required!';
+    } else if (
+      values.title.trim().length < 5 &&
+      values.title.length > 0
+    ) {
+      errors.title =
+        'Activity name must contain more thean 4 character.';
+    }
+
+    if (values) {
+      console.log(`in check value from reactquill validation ${values}`)
+      errors.content = 'content is required!';
+    } else if (
+      values.content.trim().length < 30 &&
+      values.content.length > 0
+    ) {
+      errors.content = 'content must contain more than 10 character.';
+    }
+
+    if (!values.type) {
+      errors.type = 'Activity type is required!';
+    }
+
+    if (!values.duration) {
+      errors.duration = 'Duration is required!';
+    }
+    return errors;
+  };
+
   return (
     <div className="container p-5 bg-light">
       <NavbarComponent />
-      
+
       <br />
       <h1>เพิ่มกิจกรรม</h1>
 
-
-      <form onSubmit={submitForm} >
+      <form onSubmit={submitForm}>
         <div className="form-group">
           <label>ชื่อกิจกรรม</label>
           <input
@@ -82,6 +119,7 @@ const FromComponent = () => {
             onChange={inputValue("title")}
             placeholder="ชื่อกิจกรรมที่ทำ"
           />
+          <p className="validate-error">{formErrors.title}</p>
         </div>
         <div className="form-group">
           <label>รายละเอียดกิจกรรม</label>
@@ -92,7 +130,9 @@ const FromComponent = () => {
             className=""
             placeholder="เขียนรายละเอียดการออกกำลังกาย"
           />
+          
         </div>
+        <p className="validate-error">{formErrors.content}</p>
         <div className="form-control">
           <lable>ประเภทกิจกรรม</lable>
           <select
@@ -108,7 +148,9 @@ const FromComponent = () => {
             <option value="เดิน">เดิน</option>
             <option value="เดินเขา">เดินเขา</option>
           </select>
+          
         </div>
+        <p className="validate-error">{formErrors.type}</p>
 
         <div className="from-group">
           <label> ระยะเวลา :</label>
@@ -121,6 +163,7 @@ const FromComponent = () => {
             onChange={inputValue("duration")}
           />
         </div>
+        <p className="validate-error">{formErrors.duration}</p>
 
         {/* <div className="form-group">
           <label>Date :</label>
@@ -137,7 +180,6 @@ const FromComponent = () => {
         <div className=" d-flex justify-content-end">
           <input type="submit" value="บันทึก" className="btn btn-primary" />
         </div>
-        
       </form>
     </div>
   );
